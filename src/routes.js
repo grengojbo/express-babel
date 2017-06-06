@@ -1,4 +1,8 @@
 import { Router } from 'express';
+import fetch from 'node-fetch';
+
+// import striptags from 'striptags';
+// const URL = require('url-parse');
 
 const routes = Router();
 
@@ -31,6 +35,18 @@ routes.get('/list', (req, res, next) => {
   }
 
   res.render('index', { title });
+});
+
+routes.get('/api', (req, res, next) => {
+  fetch('https://api.github.com/users/github')
+    .then((response) => {
+      return response.json();
+    }).then(function(json) {
+      res.json(json);
+    })
+    .catch((err) => {
+      res.json(`error ${err}`);
+    })
 });
 
 export default routes;
